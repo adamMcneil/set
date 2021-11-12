@@ -143,21 +143,37 @@ class Deck:
         card.is_second_highlighted = False
 
     def add_card_to_board(self):
-        for x in self.slots_open:
-            if len(self.cards_in_deck) > 1:
+        self.check_slots()
+        if len(self.slots_open) > 0:
+            x = self.slots_open[0]
+            if len(self.cards_in_deck) > 0:
                 card = Card.Card(x, self)
-            else:
-                return
+                while self.num_of_sets_in_play() == 0 and len(self.slots_open) < 2:
+                    self.add_card_deck(card)
+                    self.remove_card_play(card)
+                    card = Card.Card(x, self)
+        print('len of slots:', len(self.slots_open))
+        print('len of deck:', len(self.cards_in_deck))
+        print(self.cards_in_deck)
+        if len(self.slots_open) > len(self.cards_in_deck) > 0:
+            card = Card.Card(x, self)
+            print('here')
+
+        # x = random.randint(0, len(deck.cards_in_deck) - 1)
+        #         self.card_num = deck.cards_in_deck[x]
 
     def check_slots(self):
+        print()
         self.slots_open = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-        for card in self.cards_in_play:
-            self.slots_open.remove(card.slot)
+        if len(self.cards_in_play) > 0:
+            for card in self.cards_in_play:
+                if card.slot in self.slots_open:
+                    self.slots_open.remove(card.slot)
 
     def check_for_set(self, board):
         if len(self.cards_highlighted) == 3:
             if SET(self.cards_highlighted):
-                board.player_one_score += 1
+                board.player_one_score += '←'
                 for cardH in self.cards_highlighted:
                     for cardP in self.cards_in_play:
                         if cardH == cardP:
@@ -169,7 +185,7 @@ class Deck:
     def check_for_set_second(self, board):
         if len(self.card_second_highlighted) == 3:
             if SET(self.card_second_highlighted):
-                board.player_two_score += 1
+                board.player_two_score += '←'
                 for cardH in self.card_second_highlighted:
                     for cardP in self.cards_in_play:
                         if cardH == cardP:
@@ -286,4 +302,16 @@ class Deck:
         self.cards_in_play = []
         self.cards_highlighted = []
         self.slots_open = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+    def SET_tester(self, board):
+        for x in range(0, len(self.cards_in_play) - 2):
+            for y in range(x + 1, len(self.cards_in_play) - 1):
+                for z in range(y + 1, len(self.cards_in_play)):
+                    cards = [self.cards_in_play[x], self.cards_in_play[y], self.cards_in_play[z]]
+                    if SET(cards):
+                        for card in cards:
+                            self.add_card_second_highlight(card)
+                        board.computer_score += '←'
+                        return
+
 

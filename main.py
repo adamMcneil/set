@@ -35,8 +35,10 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 deck = Deck.Deck()
 board = Board.Board()
 freeplay_button = Button.Button('freeplay', [600, 250], 50, 'Free Play')
-verse_button = Button.Button('verse', [600, 325], 50, 'Verse')
+verse_button = Button.Button('versus', [600, 325], 50, 'Versus')
+computer_button = Button.Button('computer', [600, 400], 50, 'Computer')
 meun = Meun.Meun()
+meun.add_button(computer_button)
 meun.add_button(freeplay_button)
 meun.add_button(verse_button)
 
@@ -57,23 +59,22 @@ while running:
             card.select_Card(events, deck)
             card.print_Card(screen)
             card.print_shapes(screen)
-        deck.check_slots()
-        deck.add_card_to_board()
         deck.check_for_set(board)
+        deck.add_card_to_board()
         deck.print_cards_left(screen)
         deck.print_num_of_sets(screen)
         board.print_player_one_score(screen)
         for button in board.button_list:
             button.print_button(screen)
             display = button.check_if_button_is_pushed(events, display, deck, board)
-    if display == 'verse':
+    if display == 'versus':
         board.print_board(screen)
         for card in deck.cards_in_play:
             card.select_Card(events, deck)
             card.select_Card_with_keys(events, deck)
             card.print_Card(screen)
             card.print_shapes(screen)
-        deck.check_slots()
+        # deck.check_slots()
         deck.add_card_to_board()
         deck.check_for_set(board)
         deck.check_for_set_second(board)
@@ -81,7 +82,23 @@ while running:
         deck.print_num_of_sets(screen)
         board.print_player_one_score(screen)
         board.print_player_two_score(screen)
-
+        for button in board.button_list:
+            button.print_button(screen)
+            display = button.check_if_button_is_pushed(events, display, deck, board)
+    if display == 'computer':
+        board.print_board(screen)
+        for card in deck.cards_in_play:
+            card.select_Card(events, deck)
+            card.print_Card(screen)
+            card.print_shapes(screen)
+        deck.SET_tester(board)
+        deck.check_for_set(board)
+        deck.check_for_set_second(board)
+        deck.add_card_to_board()
+        deck.print_cards_left(screen)
+        deck.print_num_of_sets(screen)
+        board.print_player_one_score(screen)
+        board.print_computer_score(screen)
         for button in board.button_list:
             button.print_button(screen)
             display = button.check_if_button_is_pushed(events, display, deck, board)

@@ -35,12 +35,8 @@ class Card:
         self.position = self.position_dict[slot]
         self.color = self.default_color
         self.rect = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
-        print(len(deck.cards_in_deck) - 1)
         x = random.randint(0, len(deck.cards_in_deck) - 1)
         self.card_num = deck.cards_in_deck[x]
-        while deck.num_of_sets_in_play() == 0 and len(deck.slots_open) < 2:
-            x = random.randint(0, len(deck.cards_in_deck) - 1)
-            self.card_num = deck.cards_in_deck[x]
         deck.add_card_play(self)
         deck.remove_card_deck(self)
 
