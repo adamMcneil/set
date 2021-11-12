@@ -152,15 +152,10 @@ class Deck:
                     self.add_card_deck(card)
                     self.remove_card_play(card)
                     card = Card.Card(x, self)
-        print('len of slots:', len(self.slots_open))
-        print('len of deck:', len(self.cards_in_deck))
-        print(self.cards_in_deck)
-        if len(self.slots_open) > len(self.cards_in_deck) > 0:
-            card = Card.Card(x, self)
-            print('here')
+            elif len(self.slots_open) > len(self.cards_in_deck) > 0:
+                card = Card.Card(x, self)
+                print('here')
 
-        # x = random.randint(0, len(deck.cards_in_deck) - 1)
-        #         self.card_num = deck.cards_in_deck[x]
 
     def check_slots(self):
         print()
@@ -206,7 +201,7 @@ class Deck:
 
     def print_cards_left(self, screen):
         font_obj = pygame.font.Font('freesansbold.ttf', 30)
-        text_obj = font_obj.render(str(len(self.cards_in_deck + self.cards_in_play)) + ' / 81', True, self.black)
+        text_obj = font_obj.render(str(len(self.cards_in_deck) + len(self.cards_in_play)) + ' / 81', True, self.black)
         screen.blit(text_obj, (1100, 950))
 
     def print_num_of_sets(self, screen):
