@@ -108,6 +108,7 @@ class Deck:
     ]
     cards_in_play = []
     cards_highlighted = []
+    card_second_highlighted = []
     slots_open = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
     def __init__(self):
@@ -133,6 +134,14 @@ class Deck:
         self.cards_highlighted.remove(card)
         card.is_highlighted = False
 
+    def add_card_second_highlight(self, card):
+        self.card_second_highlighted.append(card)
+        card.is_second_highlighted = True
+
+    def remove_card_second_highlight(self, card):
+        self.card_second_highlighted.remove(card)
+        card.is_second_highlighted = False
+
     def add_card_to_board(self):
         for x in self.slots_open:
             if len(self.cards_in_deck) > 1:
@@ -145,9 +154,10 @@ class Deck:
         for card in self.cards_in_play:
             self.slots_open.remove(card.slot)
 
-    def check_for_set(self):
+    def check_for_set(self, board):
         if len(self.cards_highlighted) == 3:
             if SET(self.cards_highlighted):
+                board.player_one_score += 1
                 for cardH in self.cards_highlighted:
                     for cardP in self.cards_in_play:
                         if cardH == cardP:
@@ -155,6 +165,18 @@ class Deck:
                             break
             for card in self.cards_highlighted[:]:
                 self.remove_card_highlight(card)
+
+    def check_for_set_second(self, board):
+        if len(self.card_second_highlighted) == 3:
+            if SET(self.card_second_highlighted):
+                board.player_two_score += 1
+                for cardH in self.card_second_highlighted:
+                    for cardP in self.cards_in_play:
+                        if cardH == cardP:
+                            self.cards_in_play.remove(cardP)
+                            break
+            for card in self.card_second_highlighted[:]:
+                self.remove_card_second_highlight(card)
 
     def num_of_sets_in_play(self):
         total = 0
@@ -175,4 +197,93 @@ class Deck:
         font_obj = pygame.font.Font('freesansbold.ttf', 30)
         text_obj = font_obj.render(str(self.num_of_sets_in_play()), True, self.black)
         screen.blit(text_obj, (1050, 950))
+
+    def reset_deck(self):
+        self.cards_in_deck = [
+            [0, 0, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 2],
+            [0, 0, 1, 0],
+            [0, 0, 1, 1],
+            [0, 0, 1, 2],
+            [0, 0, 2, 0],
+            [0, 0, 2, 1],
+            [0, 0, 2, 2],
+            [0, 1, 0, 0],
+            [0, 1, 0, 1],
+            [0, 1, 0, 2],
+            [0, 1, 1, 0],
+            [0, 1, 1, 1],
+            [0, 1, 1, 2],
+            [0, 1, 2, 0],
+            [0, 1, 2, 1],
+            [0, 1, 2, 2],
+            [0, 2, 0, 0],
+            [0, 2, 0, 1],
+            [0, 2, 0, 2],
+            [0, 2, 1, 0],
+            [0, 2, 1, 1],
+            [0, 2, 1, 2],
+            [0, 2, 2, 0],
+            [0, 2, 2, 1],
+            [0, 2, 2, 2],
+            [1, 0, 0, 0],
+            [1, 0, 0, 1],
+            [1, 0, 0, 2],
+            [1, 0, 1, 0],
+            [1, 0, 1, 1],
+            [1, 0, 1, 2],
+            [1, 0, 2, 0],
+            [1, 0, 2, 1],
+            [1, 0, 2, 2],
+            [1, 1, 0, 0],
+            [1, 1, 0, 1],
+            [1, 1, 0, 2],
+            [1, 1, 1, 0],
+            [1, 1, 1, 1],
+            [1, 1, 1, 2],
+            [1, 1, 2, 0],
+            [1, 1, 2, 1],
+            [1, 1, 2, 2],
+            [1, 2, 0, 0],
+            [1, 2, 0, 1],
+            [1, 2, 0, 2],
+            [1, 2, 1, 0],
+            [1, 2, 1, 1],
+            [1, 2, 1, 2],
+            [1, 2, 2, 0],
+            [1, 2, 2, 1],
+            [1, 2, 2, 2],
+            [2, 0, 0, 0],
+            [2, 0, 0, 1],
+            [2, 0, 0, 2],
+            [2, 0, 1, 0],
+            [2, 0, 1, 1],
+            [2, 0, 1, 2],
+            [2, 0, 2, 0],
+            [2, 0, 2, 1],
+            [2, 0, 2, 2],
+            [2, 1, 0, 0],
+            [2, 1, 0, 1],
+            [2, 1, 0, 2],
+            [2, 1, 1, 0],
+            [2, 1, 1, 1],
+            [2, 1, 1, 2],
+            [2, 1, 2, 0],
+            [2, 1, 2, 1],
+            [2, 1, 2, 2],
+            [2, 2, 0, 0],
+            [2, 2, 0, 1],
+            [2, 2, 0, 2],
+            [2, 2, 1, 0],
+            [2, 2, 1, 1],
+            [2, 2, 1, 2],
+            [2, 2, 2, 0],
+            [2, 2, 2, 1],
+            [2, 2, 2, 2]
+
+        ]
+        self.cards_in_play = []
+        self.cards_highlighted = []
+        self.slots_open = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
