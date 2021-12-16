@@ -1,5 +1,8 @@
 import pygame
 import Card
+import random
+import math
+
 
 def SET(cards):
     if len(cards) == 3:
@@ -17,9 +20,8 @@ def SET(cards):
     return False
 
 
-
 class Deck:
-    black = (0,0,0)
+    black = (0, 0, 0)
     cards_in_deck = [
         [0, 0, 0, 0],
         [0, 0, 0, 1],
@@ -147,14 +149,26 @@ class Deck:
         if len(self.slots_open) > 0:
             x = self.slots_open[0]
             if len(self.cards_in_deck) > 0:
-                card = Card.Card(x, self)
-                while self.num_of_sets_in_play() == 0 and len(self.slots_open) < 2:
-                    self.add_card_deck(card)
-                    self.remove_card_play(card)
-                    card = Card.Card(x, self)
-            elif len(self.slots_open) > len(self.cards_in_deck) > 0:
-                card = Card.Card(x, self)
-                print('here')
+                if len(self.slots_open) == 1 and self.num_of_sets_in_play() == 0:
+                    card = Card.Card(x, self, 0)
+                    i = 1
+                    while self.num_of_sets_in_play() == 0 and i < len(self.cards_in_deck)-1:
+                        self.add_card_deck(card)
+                        self.remove_card_play(card)
+                        card = Card.Card(x, self, i)
+                        i += 1
+                    if self.num_of_sets_in_play() == 0:
+                        self.add_card_deck(card)
+                        self.remove_card_play(card)
+                        if len(self.cards_in_deck) == 1:
+                            card = Card.Card(x, self, 0)
+                        else:
+                            card = Card.Card(x, self, random.randint(1, len(self.cards_in_deck))-1)
+                else:
+                    if len(self.cards_in_deck) == 1:
+                        card = Card.Card(x, self, 0)
+                    else:
+                        card = Card.Card(x, self, random.randint(1, len(self.cards_in_deck)) - 1)
 
 
     def check_slots(self):
@@ -176,6 +190,8 @@ class Deck:
                             break
             for card in self.cards_highlighted[:]:
                 self.remove_card_highlight(card)
+            return True
+        return False
 
     def check_for_set_second(self, board):
         if len(self.card_second_highlighted) == 3:
@@ -188,12 +204,14 @@ class Deck:
                             break
             for card in self.card_second_highlighted[:]:
                 self.remove_card_second_highlight(card)
+            return True
+        return False
 
     def num_of_sets_in_play(self):
         total = 0
-        for x in range(0, len(self.cards_in_play)-2):
-            for y in range(x+1, len(self.cards_in_play)-1):
-                for z in range(y+1, len(self.cards_in_play)):
+        for x in range(0, len(self.cards_in_play) - 2):
+            for y in range(x + 1, len(self.cards_in_play) - 1):
+                for z in range(y + 1, len(self.cards_in_play)):
                     cards = [self.cards_in_play[x], self.cards_in_play[y], self.cards_in_play[z]]
                     if SET(cards):
                         total += 1
@@ -297,6 +315,9 @@ class Deck:
         self.cards_in_play = []
         self.cards_highlighted = []
         self.slots_open = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        for x in range(0, 12):
+            self.add_card_to_board()
+
 
     def SET_tester(self, board):
         for x in range(0, len(self.cards_in_play) - 2):
@@ -308,5 +329,3 @@ class Deck:
                             self.add_card_second_highlight(card)
                         board.computer_score += '←'
                         return
-
-

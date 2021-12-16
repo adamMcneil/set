@@ -28,15 +28,14 @@ class Card:
         11: (7 + 840, 7 + 725)
     }
 
-    def __init__(self, slot, deck):
+    def __init__(self, slot, deck, index):
         self.slot = slot
         self.width = 300 - 14
         self.height = 175 - 14
         self.position = self.position_dict[slot]
         self.color = self.default_color
         self.rect = pygame.Rect(self.position[0], self.position[1], self.width, self.height)
-        x = random.randint(0, len(deck.cards_in_deck) - 1)
-        self.card_num = deck.cards_in_deck[x]
+        self.card_num = deck.cards_in_deck[index]
         deck.add_card_play(self)
         deck.remove_card_deck(self)
 
@@ -136,7 +135,6 @@ class Card:
             self.color = (int((self.highlight_color[0] + self.second_highlight_color[0]) / 2),
                           int((self.highlight_color[1] + self.second_highlight_color[1]) / 2),
                           int((self.highlight_color[2] + self.second_highlight_color[2]) / 2))
-            print(self.color)
         pygame.draw.rect(screen, self.color, self.rect, 0, 15)
 
     def print_shapes(self, screen):

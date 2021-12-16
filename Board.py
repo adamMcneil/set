@@ -26,7 +26,7 @@ class Board:
     computer_score = ''
 
     def __init__(self):
-        self.back_button = Button.Button('meun', [40, 20], 30, '<-')
+        self.back_button = Button.DisplayButton('meun', [40, 20], 30, '<-')
         self.button_list.append(self.back_button)
 
     def print_board(self, screen):
