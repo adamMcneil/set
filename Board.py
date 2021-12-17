@@ -4,7 +4,7 @@ import Button
 
 class Board:
     black = (0, 0, 0)
-    gray = (100, 100, 100)
+    gray = (199, 213, 190)
     rect_outlines_0 = pygame.Rect(80, 80, 300, 175)
     rect_outlines_1 = pygame.Rect(460, 80, 300, 175)
     rect_outlines_2 = pygame.Rect(840, 80, 300, 175)
@@ -48,7 +48,7 @@ class Board:
     def print_computer_score(self, screen):
         font_obj = pygame.font.Font('freesansbold.ttf', 30)
         text_obj = font_obj.render('Computer: ' + str(self.player_two_score), True, self.black)
-        screen.blit(text_obj, (40, 960))
+        screen.blit(text_obj, (12, 960))
 
     def reset_board(self):
         self.player_one_score = ''

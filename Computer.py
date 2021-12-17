@@ -29,7 +29,7 @@ class Computer:
 
 
     def get_calculated_time(self):
-        return self.difficulty
+        return 36 - 4 * self.difficulty
 
     def find_a_set(self, deck):
         for x in range(0, len(deck.cards_in_play)-2):

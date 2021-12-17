@@ -26,16 +26,16 @@ board = Board.Board()
 com = Computer.Computer(difficulty)
 meun = Meun.Meun()
 
-freeplay_button = Button.DisplayButton('freeplay', [600, 250], 50, 'Free Play')
-verse_button = Button.DisplayButton('versus', [600, 325], 50, 'Versus')
-computer_button = Button.DisplayButton('computer', [600, 400], 50, 'Computer')
+freeplay_button = Button.DisplayButton('freeplay', [600, 400], 50, 'Free Play')
+verse_button = Button.DisplayButton('versus', [600, 475], 50, 'Versus')
+computer_button = Button.DisplayButton('computer', [600, 550], 50, 'Computer')
 
 meun.add_button(computer_button)
 meun.add_button(freeplay_button)
 meun.add_button(verse_button)
 
 for x in range(0, 10):
-    difficulty_button = Button.DifficultyButton(x, [377 + x * 50, 475], 30, str(x))
+    difficulty_button = Button.DifficultyButton(x, [377 + x * 50, 625], 30, str(x))
     meun.add_button(difficulty_button)
 
 for x in range(0, 12):
@@ -61,7 +61,7 @@ while running:
             card.select_Card(events, deck)
             card.print_Card(screen)
             card.print_shapes(screen)
-        if deck.check_for_set(board):
+        if deck.check_for_set(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
@@ -79,12 +79,12 @@ while running:
             card.select_Card_with_keys(events, deck)
             card.print_Card(screen)
             card.print_shapes(screen)
-        if deck.check_for_set(board):
+        if deck.check_for_set(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
 
-        if deck.check_for_set_second(board):
+        if deck.check_for_set_second(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
@@ -103,12 +103,12 @@ while running:
             card.print_shapes(screen)
         com.claim_set(deck)
         deck.check_slots()
-        if deck.check_for_set(board):
+        if deck.check_for_set(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
 
-        if deck.check_for_set_second(board):
+        if deck.check_for_set_second(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()

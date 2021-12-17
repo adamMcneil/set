@@ -18,12 +18,11 @@ class Meun:
         pass
 
     def print_meun(self, screen):
-        # image = pygame.image.load('~/PycharmProjects/pythonProject4/set_background.svg')
-        # screen.blit(image, (0, 0))
-        screen.fill(self.gray)
+        image = pygame.image.load('set_background_2.svg')
+        screen.blit(image, (0, 0))
+        # screen.fill(self.gray)
         for button in self.button_list:
             button.print_button(screen)
-        print_logo(screen)
 
     def add_button(self, button):
         self.button_list.append(button)
