@@ -182,8 +182,6 @@ class Deck:
     def check_for_set(self, board, screen):
         if len(self.cards_highlighted) == 3:
             if SET(self.cards_highlighted):
-                image = pygame.image.load('set_getter.svg')
-                screen.blit(image, (0, 0))
                 board.player_one_score += '←'
                 for cardH in self.cards_highlighted:
                     for cardP in self.cards_in_play:
@@ -198,8 +196,6 @@ class Deck:
     def check_for_set_second(self, board, screen):
         if len(self.card_second_highlighted) == 3:
             if SET(self.card_second_highlighted):
-                image = pygame.image.load('set_getter.svg')
-                screen.blit(image, (0, 0))
                 board.player_two_score += '←'
                 for cardH in self.card_second_highlighted:
                     for cardP in self.cards_in_play:

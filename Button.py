@@ -64,19 +64,27 @@ class DisplayButton(Button):
 class DifficultyButton(Button):
 
     def __init__(self, name, position, font_size, text, background_color=(255, 255, 255), text_color=(0, 0, 0),
-                 background_color_two=(255, 255, 175)):
+                 background_color_two=(255, 221, 85)):
         Button.__init__(self, name, position, font_size, text, background_color, text_color)
         self.background_color_two = background_color_two
 
-    def check_if_button_is_pushed_difficulty(self, events, difficulty):
+    def check_if_button_is_pushed_difficulty(self, events, computer):
+        output = False
         collide = self.shape.collidepoint(pygame.mouse.get_pos())
         if collide:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    difficulty = self.name
-        if self.name == difficulty:
+                    computer.difficulty = self.name
+                    output = True
+        if self.name == computer.difficulty:
             self.button_color = self.background_color_two
         else:
             self.button_color = self.background_color
-        return difficulty
+        return output
+
+    def highlight_correct_button(self, computer):
+        if self.name == computer.difficulty:
+            self.button_color = self.background_color_two
+        else:
+            self.button_color = self.background_color
 

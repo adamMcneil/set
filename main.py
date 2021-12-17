@@ -4,14 +4,16 @@ import Board
 import Button
 import Meun
 import Computer
+import time
 
 screenHeight = 1000
-#1000
+# 1000
 screenWidth = 1200
-#1200
+# 1200
 white = (255, 255, 255)
 blue = (50, 50, 255)
 display = 'meun'
+set_getter_start_time = 0
 
 # initialize the pygame
 pygame.init()
@@ -19,7 +21,6 @@ pygame.init()
 # create the screen
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 difficulty = 0
-
 
 deck = Deck.Deck()
 board = Board.Board()
@@ -41,6 +42,8 @@ for x in range(0, 10):
 for x in range(0, 12):
     deck.add_card_to_board()
 
+meun.print_meun(screen)
+pygame.display.update()
 running = True
 while running:
     events = pygame.event.get()
@@ -49,12 +52,16 @@ while running:
             running = False
     if display == 'meun':
         meun.print_meun(screen)
-        com.set_difficulty(difficulty)
         for button in meun.button_list_change_display:
             display = button.check_if_button_is_pushed(events, display, deck, board)
         for button in meun.button_list_difficulty:
-            difficulty = button.check_if_button_is_pushed_difficulty(events, difficulty)
-            # print(difficulty)
+            if button.check_if_button_is_pushed_difficulty(events, com):
+                for second_button in meun.button_list_difficulty:
+                    second_button.highlight_correct_button(com)
+                meun.print_meun(screen)
+                pygame.display.update()
+
+
     elif display == 'freeplay':
         board.print_board(screen)
         for card in deck.cards_in_play:
@@ -65,13 +72,17 @@ while running:
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
-
+            set_getter_start_time = time.time()
         deck.print_cards_left(screen)
+
+        if time.time() - set_getter_start_time < .5:
+            image = pygame.image.load('set_getter.svg')
+            screen.blit(image, (0, 0))
         deck.print_num_of_sets(screen)
         board.print_player_one_score(screen)
         for button in board.button_list:
-            button.print_button(screen)
             display = button.check_if_button_is_pushed(events, display, deck, board)
+
     elif display == 'versus':
         board.print_board(screen)
         for card in deck.cards_in_play:
@@ -83,17 +94,22 @@ while running:
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
+            set_getter_start_time = time.time()
 
         if deck.check_for_set_second(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
+            set_getter_start_time = time.time()
+
+        if time.time() - set_getter_start_time < .5:
+            image = pygame.image.load('set_getter.svg')
+            screen.blit(image, (0, 0))
         deck.print_cards_left(screen)
         deck.print_num_of_sets(screen)
         board.print_player_one_score(screen)
         board.print_player_two_score(screen)
         for button in board.button_list:
-            button.print_button(screen)
             display = button.check_if_button_is_pushed(events, display, deck, board)
     elif display == 'computer':
         board.print_board(screen)
@@ -107,19 +123,23 @@ while running:
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
+            set_getter_start_time = time.time()
+
 
         if deck.check_for_set_second(board, screen):
             deck.add_card_to_board()
             deck.add_card_to_board()
             deck.add_card_to_board()
+            set_getter_start_time = time.time()
 
-        # deck.add_card_to_board()
+        if time.time() - set_getter_start_time < .5:
+            image = pygame.image.load('set_getter.svg')
+            screen.blit(image, (0, 0))
         deck.print_cards_left(screen)
         deck.print_num_of_sets(screen)
         board.print_player_one_score(screen)
         board.print_computer_score(screen)
         for button in board.button_list:
-            button.print_button(screen)
             display = button.check_if_button_is_pushed(events, display, deck, board)
     # print(display)
     pygame.display.update()

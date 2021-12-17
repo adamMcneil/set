@@ -4,7 +4,7 @@ import Button
 
 class Board:
     black = (0, 0, 0)
-    gray = (199, 213, 190)
+    gray = (150, 150, 150)
     rect_outlines_0 = pygame.Rect(80, 80, 300, 175)
     rect_outlines_1 = pygame.Rect(460, 80, 300, 175)
     rect_outlines_2 = pygame.Rect(840, 80, 300, 175)
@@ -34,6 +34,8 @@ class Board:
         for rect in self.rect_outlines:
             pygame.draw.rect(screen, self.black, rect, 7, 20)
         self.back_button.print_button(screen)
+        image = pygame.image.load('set_back_arrow.svg')
+        screen.blit(image, (0, 0))
 
     def print_player_one_score(self, screen):
         font_obj = pygame.font.Font('freesansbold.ttf', 30)

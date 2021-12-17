@@ -1,5 +1,6 @@
 import time
 
+
 def SET(cards):
     if len(cards) == 3:
         total1 = 0
@@ -16,25 +17,19 @@ def SET(cards):
     return False
 
 
-
 class Computer:
-
     start_time = 0
 
     def __init__(self, difficulty):
         self.difficulty = 9 - difficulty
 
-    def set_difficulty(self, difficulty):
-        self.difficulty = difficulty
-
-
     def get_calculated_time(self):
         return 36 - 4 * self.difficulty
 
     def find_a_set(self, deck):
-        for x in range(0, len(deck.cards_in_play)-2):
-            for y in range(x+1, len(deck.cards_in_play)-1):
-                for z in range(y+1, len(deck.cards_in_play)):
+        for x in range(0, len(deck.cards_in_play) - 2):
+            for y in range(x + 1, len(deck.cards_in_play) - 1):
+                for z in range(y + 1, len(deck.cards_in_play)):
                     set = [deck.cards_in_play[x], deck.cards_in_play[y], deck.cards_in_play[z]]
                     if SET(set):
                         for card in set:
@@ -45,8 +40,6 @@ class Computer:
     def claim_set(self, deck):
         if self.start_time == 0:
             self.start_time = time.time()
-            # print(self.start_time)
         current_time = time.time()
-        print(current_time-self.start_time)
         if current_time - self.start_time > self.get_calculated_time():
             self.find_a_set(deck)
