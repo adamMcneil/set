@@ -54,16 +54,15 @@ while running:
         meun.print_meun(screen)
         for button in meun.button_list_change_display:
             display = button.check_if_button_is_pushed(events, display, deck, board)
+            board.board_start_time = time.time()
         for button in meun.button_list_difficulty:
             if button.check_if_button_is_pushed_difficulty(events, com):
                 for second_button in meun.button_list_difficulty:
                     second_button.highlight_correct_button(com)
                 meun.print_meun(screen)
                 pygame.display.update()
-
-
     elif display == 'freeplay':
-        board.print_board(screen)
+        board.print_board(screen, deck)
         for card in deck.cards_in_play:
             card.select_Card(events, deck)
             card.print_Card(screen)
@@ -78,13 +77,13 @@ while running:
         if time.time() - set_getter_start_time < .5:
             image = pygame.image.load('set_getter.svg')
             screen.blit(image, (0, 0))
+
         deck.print_num_of_sets(screen)
         board.print_player_one_score(screen)
         for button in board.button_list:
             display = button.check_if_button_is_pushed(events, display, deck, board)
-
     elif display == 'versus':
-        board.print_board(screen)
+        board.print_board(screen, deck)
         for card in deck.cards_in_play:
             card.select_Card(events, deck)
             card.select_Card_with_keys(events, deck)
@@ -112,7 +111,7 @@ while running:
         for button in board.button_list:
             display = button.check_if_button_is_pushed(events, display, deck, board)
     elif display == 'computer':
-        board.print_board(screen)
+        board.print_board(screen, deck)
         for card in deck.cards_in_play:
             card.select_Card(events, deck)
             card.print_Card(screen)

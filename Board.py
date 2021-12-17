@@ -1,5 +1,6 @@
 import pygame
 import Button
+import time
 
 
 class Board:
@@ -24,18 +25,32 @@ class Board:
     player_one_score = ''
     player_two_score = ''
     computer_score = ''
+    board_start_time = 0
+    board_end_time = 0
 
     def __init__(self):
         self.back_button = Button.DisplayButton('meun', [40, 20], 30, '<-')
         self.button_list.append(self.back_button)
 
-    def print_board(self, screen):
+    def print_board(self, screen, deck):
         screen.fill(self.gray)
         for rect in self.rect_outlines:
             pygame.draw.rect(screen, self.black, rect, 7, 20)
         self.back_button.print_button(screen)
         image = pygame.image.load('set_back_arrow.svg')
         screen.blit(image, (0, 0))
+        self.print_time(screen, deck)
+
+
+    def print_time(self, screen, deck):
+        font_obj = pygame.font.Font('freesansbold.ttf', 60)
+        if deck.num_of_sets_in_play() == 0:
+            if self.board_end_time == 0:
+                self.board_end_time = time.time() - self.board_start_time
+            text_obj = font_obj.render(str(round(self.board_end_time, 2)), True, self.black)
+        else:
+            text_obj = font_obj.render(str(round(time.time() - self.board_start_time, 2)), True, self.black)
+        screen.blit(text_obj, (550, 10))
 
     def print_player_one_score(self, screen):
         font_obj = pygame.font.Font('freesansbold.ttf', 30)
@@ -53,6 +68,8 @@ class Board:
         screen.blit(text_obj, (12, 960))
 
     def reset_board(self):
+        self.board_start_time = 0
+        self.board_end_time = 0
         self.player_one_score = ''
         self.player_two_score = ''
         self.computer_score = ''

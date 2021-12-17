@@ -180,6 +180,7 @@ class Deck:
                     self.slots_open.remove(card.slot)
 
     def check_for_set(self, board, screen):
+        output = False
         if len(self.cards_highlighted) == 3:
             if SET(self.cards_highlighted):
                 board.player_one_score += '←'
@@ -188,12 +189,13 @@ class Deck:
                         if cardH == cardP:
                             self.cards_in_play.remove(cardP)
                             break
+                output = True
             for card in self.cards_highlighted[:]:
                 self.remove_card_highlight(card)
-            return True
-        return False
+        return output
 
     def check_for_set_second(self, board, screen):
+        output = False
         if len(self.card_second_highlighted) == 3:
             if SET(self.card_second_highlighted):
                 board.player_two_score += '←'
@@ -202,10 +204,10 @@ class Deck:
                         if cardH == cardP:
                             self.cards_in_play.remove(cardP)
                             break
+                output = True
             for card in self.card_second_highlighted[:]:
                 self.remove_card_second_highlight(card)
-            return True
-        return False
+        return output
 
     def num_of_sets_in_play(self):
         total = 0
