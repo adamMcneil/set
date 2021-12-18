@@ -27,6 +27,7 @@ class Board:
     computer_score = ''
     board_start_time = 0
     board_end_time = 0
+    print_ready_set_go = True
 
     def __init__(self):
         self.back_button = Button.DisplayButton('meun', [40, 20], 30, '<-')
@@ -34,12 +35,30 @@ class Board:
 
     def print_board(self, screen, deck):
         screen.fill(self.gray)
-        for rect in self.rect_outlines:
-            pygame.draw.rect(screen, self.black, rect, 7, 20)
         self.back_button.print_button(screen)
         image = pygame.image.load('set_back_arrow.svg')
         screen.blit(image, (0, 0))
+        if self.print_ready_set_go:
+            if time.time() - self.board_start_time < 1:
+                image = pygame.image.load('ready.svg')
+                screen.blit(image, (0, 0))
+                return
+            if time.time() - self.board_start_time < 2:
+                image = pygame.image.load('ready_set.svg')
+                screen.blit(image, (0, 0))
+                return
+            if time.time() - self.board_start_time < 3:
+                image = pygame.image.load('ready_set_go.svg')
+                screen.blit(image, (0, 0))
+                return
+            if time.time() - self.board_start_time > 3:
+                self.board_start_time = time.time()
+                self.print_ready_set_go = False
+
+        for rect in self.rect_outlines:
+            pygame.draw.rect(screen, self.black, rect, 7, 20)
         self.print_time(screen, deck)
+
 
 
     def print_time(self, screen, deck):
@@ -68,6 +87,7 @@ class Board:
         screen.blit(text_obj, (12, 960))
 
     def reset_board(self):
+        self.print_ready_set_go = True
         self.board_start_time = 0
         self.board_end_time = 0
         self.player_one_score = ''

@@ -52,6 +52,7 @@ while running:
             running = False
     if display == 'meun':
         meun.print_meun(screen)
+
         for button in meun.button_list_change_display:
             display = button.check_if_button_is_pushed(events, display, deck, board)
             board.board_start_time = time.time()
@@ -63,17 +64,18 @@ while running:
                 pygame.display.update()
     elif display == 'freeplay':
         board.print_board(screen, deck)
-        for card in deck.cards_in_play:
-            card.select_Card(events, deck)
-            card.print_Card(screen)
-            card.print_shapes(screen)
-        if deck.check_for_set(board, screen):
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            set_getter_start_time = time.time()
-        deck.print_cards_left(screen)
+        if not board.print_ready_set_go:
+            for card in deck.cards_in_play:
+                card.select_Card(events, deck)
+                card.print_Card(screen)
+                card.print_shapes(screen)
+            if deck.check_for_set(board, screen):
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                set_getter_start_time = time.time()
 
+        deck.print_cards_left(screen)
 
         if time.time() - set_getter_start_time < .5:
             image = pygame.image.load('set_getter.svg')
@@ -85,22 +87,24 @@ while running:
             display = button.check_if_button_is_pushed(events, display, deck, board)
     elif display == 'versus':
         board.print_board(screen, deck)
-        for card in deck.cards_in_play:
-            card.select_Card(events, deck)
-            card.select_Card_with_keys(events, deck)
-            card.print_Card(screen)
-            card.print_shapes(screen)
-        if deck.check_for_set(board, screen):
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            set_getter_start_time = time.time()
+        if not board.print_ready_set_go:
 
-        if deck.check_for_set_second(board, screen):
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            set_getter_start_time = time.time()
+            for card in deck.cards_in_play:
+                card.select_Card(events, deck)
+                card.select_Card_with_keys(events, deck)
+                card.print_Card(screen)
+                card.print_shapes(screen)
+            if deck.check_for_set(board, screen):
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                set_getter_start_time = time.time()
+
+            if deck.check_for_set_second(board, screen):
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                set_getter_start_time = time.time()
 
         if time.time() - set_getter_start_time < .5:
             image = pygame.image.load('set_getter.svg')
@@ -113,24 +117,26 @@ while running:
             display = button.check_if_button_is_pushed(events, display, deck, board)
     elif display == 'computer':
         board.print_board(screen, deck)
-        for card in deck.cards_in_play:
-            card.select_Card(events, deck)
-            card.print_Card(screen)
-            card.print_shapes(screen)
-        com.claim_set(deck)
-        deck.check_slots()
-        if deck.check_for_set(board, screen):
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            set_getter_start_time = time.time()
+        if not board.print_ready_set_go:
+
+            for card in deck.cards_in_play:
+                card.select_Card(events, deck)
+                card.print_Card(screen)
+                card.print_shapes(screen)
+            com.claim_set(deck)
+            deck.check_slots()
+            if deck.check_for_set(board, screen):
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                set_getter_start_time = time.time()
 
 
-        if deck.check_for_set_second(board, screen):
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            deck.add_card_to_board()
-            set_getter_start_time = time.time()
+            if deck.check_for_set_second(board, screen):
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                deck.add_card_to_board()
+                set_getter_start_time = time.time()
 
         if time.time() - set_getter_start_time < .5:
             image = pygame.image.load('set_getter.svg')
