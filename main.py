@@ -74,6 +74,7 @@ while running:
             set_getter_start_time = time.time()
         deck.print_cards_left(screen)
 
+
         if time.time() - set_getter_start_time < .5:
             image = pygame.image.load('set_getter.svg')
             screen.blit(image, (0, 0))

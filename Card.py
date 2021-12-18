@@ -175,7 +175,7 @@ class Card:
             thickness = 2
             if self.card_num[3] == 0:
                 circle = pygame.Rect(position[0] - 30, position[1], 60, 120)
-                pygame.draw.rect(screen, shape_color, circle, outline, 10000)
+                pygame.draw.rect(screen, shape_color, circle, outline, 1000)
                 if lines:
                     pygame.draw.line(screen, shape_color, (position[0] - 12, int(position[1] + 7)),
                                      (position[0] + 12, int(position[1] + 7)), thickness)
@@ -205,15 +205,20 @@ class Card:
                 x = position[0] - 10
                 y = position[1] - 5
                 change = 25
-                pygame.draw.polygon(screen, shape_color,
-                                    (
-                                        (x, y), (x - change, y + change), (x, y + 2 * change),
-                                        (x - change, y + 3 * change),
-                                        (x + change, y + 5 * change), (x + 2 * change, y + 4 * change),
-                                        (x + change, y + 3 * change), (x + 2 * change, y + 2 * change)
-                                    ),
-                                    outline)
-                if lines:
+                num_string = ''
+                for num in self.card_num:
+                    num_string += str(num)
+                image = pygame.image.load(num_string + '.svg')
+                screen.blit(image, (self.position_dict[self.slot][0]-7, self.position_dict[self.slot][1]-7))
+                # pygame.draw.polygon(screen, shape_color,
+                #                     (
+                #                         (x, y), (x - change, y + change), (x, y + 2 * change),
+                #                         (x - change, y + 3 * change),
+                #                         (x + change, y + 5 * change), (x + 2 * change, y + 4 * change),
+                #                         (x + change, y + 3 * change), (x + 2 * change, y + 2 * change)
+                #                     ),
+                #                     outline)
+                if lines and self.card_num[3] != 2:
                     # for y in range(int(position[1]), int(position[1] + 120), step):
                     #     pygame.draw.line(screen, shape_color, (position[0] - 30, int(y)), (position[0] + 30, int(y)),
                     #                      thickness)
@@ -234,11 +239,8 @@ class Card:
                         pygame.draw.line(screen, shape_color, (position[0] - 50 + (y - (position[1] + 5)) - 50, int(y)),
                                          (position[0] - 50 + (y - (position[1] + 5)) + 2 * change - 50, int(y)),
                                          thickness)
-                    print()
                     for y in range(int(position[1]) + 99, int(position[1]) + 120, step):
                         length = (y - position[1] - 106)
                         pygame.draw.line(screen, shape_color, (position[0] + length, int(y)),
                                          (position[0] + 27 - length, int(y)),
                                          thickness)
-
-
