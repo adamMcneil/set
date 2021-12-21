@@ -57,11 +57,9 @@ while running:
             display = button.check_if_button_is_pushed(events, display, deck, board)
             board.board_start_time = time.time()
         for button in meun.button_list_difficulty:
-            if button.check_if_button_is_pushed_difficulty(events, com):
-                for second_button in meun.button_list_difficulty:
-                    second_button.highlight_correct_button(com)
-                meun.print_meun(screen)
-                pygame.display.update()
+            button.check_if_button_is_pushed_difficulty(events, com)
+        print(freeplay_button.on_mouse)
+
     elif display == 'freeplay':
         board.print_board(screen, deck)
         if not board.print_ready_set_go:
